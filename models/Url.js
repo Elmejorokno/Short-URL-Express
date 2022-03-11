@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-const { nanoid } = require('nanoid')
 
 const urlSchema = new Schema({
   originURL: {
@@ -12,7 +11,6 @@ const urlSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    default: nanoid(6),
   },
 })
 
