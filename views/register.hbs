@@ -1,0 +1,41 @@
+<h1 class='text-center my-4'>Registro de usuarios</h1>
+
+<div class='row justify-content-center'>
+  <div class='col-md-6'>
+    <form action='/auth/register' method='POST'>
+      <input
+        type='text'
+        name='tUsername'
+        id='t-username'
+        placeholder='Nombre de usuario'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <input
+        type='text'
+        name='tEmail'
+        id='t-email'
+        placeholder='Email'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <input
+        type='password'
+        name='tPassword'
+        id='t-password'
+        placeholder='Contraseña'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <input
+        type='password'
+        name='tRepassword'
+        id='t-repassword'
+        placeholder='Confirme la contraseña'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <button type='submit' class='btn btn-primary'>Registrar usuario</button>
+    </form>
+  </div>
+</div>

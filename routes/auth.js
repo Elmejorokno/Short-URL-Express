@@ -1,9 +1,13 @@
 const express = require('express')
+const {
+  loginForm,
+  registerForm,
+  registerUser,
+} = require('../Controllers/authController')
 const router = express.Router()
 
-// TODO: mejorar la página de login
-router.get('/login', (req, res) => {
-  res.render('login')
-})
+router.get('/register', registerForm)
+router.post('/register', registerUser)
+router.get('/login', loginForm)
 
 module.exports = router
