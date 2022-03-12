@@ -1,12 +1,29 @@
-<form action='/' method='POST'>
-  <input
-    type='text'
-    name='tOriginUrl'
-    id='tOrigin-url'
-    placeholder='Ingrese una URL'
-    class='form-control my-2'
-    autocomplete='off'
-  />
+{{#if elemUrl}}
+  <form action='/editar/{{elemUrl._id}}' method='POST'>
+    <input
+      type='text'
+      name='tOriginUrl'
+      id='tOrigin-url'
+      value='{{elemUrl.originURL}}'
+      placeholder='Ingrese una URL'
+      class='form-control my-2'
+      autocomplete='off'
+    />
 
-  <button type='submit' class='btn btn-primary w-100 mb-2'>Acortar URL</button>
-</form>
+    <button type='submit' class='btn btn-warning w-100 mb-2'>Actualizar URL</button>
+  </form>
+
+{{else}}
+  <form action='/' method='POST'>
+    <input
+      type='text'
+      name='tOriginUrl'
+      id='tOrigin-url'
+      placeholder='Ingrese una URL'
+      class='form-control my-2'
+      autocomplete='off'
+    />
+
+    <button type='submit' class='btn btn-primary w-100 mb-2'>Acortar URL</button>
+  </form>
+{{/if}}
