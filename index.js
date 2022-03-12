@@ -10,6 +10,7 @@ const hbs = create({
   partialsDir: ['views/components'],
 })
 
+//Config del hbs, express templates "handlebars"
 app.engine('.hbs', hbs.engine)
 app.set('view engine', '.hbs')
 app.set('views', './views')
