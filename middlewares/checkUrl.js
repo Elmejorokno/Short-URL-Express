@@ -1,3 +1,4 @@
+const { url } = require('inspector')
 const { URL } = require('url')
 
 const checkUrl = (req, res, next) => {
@@ -5,7 +6,9 @@ const checkUrl = (req, res, next) => {
     const { tOriginUrl } = req.body
     const urlFronted = new URL(tOriginUrl)
     if (urlFronted.origin !== 'null') {
-      return next()
+      if (urlFronted.protocol === 'http:' || urlFronted.protocol === 'https:') {
+        return next()
+      }
     } else {
       throw new Error('Error al válidar la url')
     }

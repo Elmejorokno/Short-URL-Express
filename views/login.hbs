@@ -1,1 +1,29 @@
-<h1>Login</h1>
+<h1 class='text-center my-4'>Login</h1>
+
+{{#each mensajes}}
+  <div class='alert alert-dark mb-3'>{{this.msg}}</div>
+{{/each}}
+
+<div class='row justify-content-center'>
+  <div class='col-md-6'>
+    <form action='/auth/login' method='POST'>
+      <input
+        type='text'
+        name='tEmail'
+        id='t-email'
+        placeholder='Email'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <input
+        type='password'
+        name='tPassword'
+        id='t-password'
+        placeholder='Contraseña'
+        class='form-control mb-3'
+        autocomplete='off'
+      />
+      <button type='submit' class='btn btn-primary'>Login</button>
+    </form>
+  </div>
+</div>

@@ -1,5 +1,9 @@
 <h1 class='text-center my-4'>Registro de usuarios</h1>
 
+{{#each mensajes}}
+  <div class='alert alert-dark mb-3'>{{this.msg}}</div>
+{{/each}}
+
 <div class='row justify-content-center'>
   <div class='col-md-6'>
     <form action='/auth/register' method='POST'>

@@ -1,5 +1,9 @@
 const express = require('express')
+const session = require('express-session')
+const flash = require('connect-flash')
 const { create } = require('express-handlebars')
+const passport = require('passport')
+const User = require('./models/User')
 require('dotenv').config()
 require('./database/db')
 
@@ -14,6 +18,37 @@ const hbs = create({
 app.engine('.hbs', hbs.engine)
 app.set('view engine', '.hbs')
 app.set('views', './views')
+
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    name: 'name-keyboard-cat',
+    cookie: { sameSite: true },
+  })
+)
+app.use(flash())
+
+//inicializar passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+//passport crea la sesión del usuario
+passport.serializeUser((user, done) =>
+  done(null, { id: user._id, username: user.username })
+)
+//passport deserializa la sesion del usuario
+passport.deserializeUser(async (user, done) => {
+  //buscar si ese usuario de la sesion si existe
+  const userDB = await User.findById(user.id)
+
+  if (!userDB) {
+    return done(new Error('El usuario no se ha encontrado'), null)
+  }
+
+  return done(null, { id: userDB._id, username: userDB.username })
+})
 
 app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({ extended: true }))

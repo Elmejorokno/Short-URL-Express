@@ -31,7 +31,7 @@ const userSchema = new Schema({
 
 userSchema.pre('save', async function (next) {
   const user = this
-  if (!user.isModified('password')) return next
+  if (!user.isModified('password')) return next()
 
   try {
     const salt = await bcrypt.genSalt(10)
@@ -42,8 +42,12 @@ userSchema.pre('save', async function (next) {
     next()
   } catch (error) {
     console.log('error al hashear la password. ' + error)
-    next()
+    throw new Error('Error al hashear la  contraseña. ' + error)
   }
 })
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password)
+}
 
 module.exports = mongoose.model('User', userSchema)
