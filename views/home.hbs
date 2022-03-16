@@ -1,5 +1,9 @@
 <h1>Short URLS</h1>
 
+{{#each mensajes}}
+  <div class='alert alert-dark mb-3'>{{this.msg}}</div>
+{{/each}}
+
 {{>Form_url}}
 
 {{#each urls}}

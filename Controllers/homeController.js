@@ -1,25 +1,33 @@
 const Url = require('../models/Url')
 const { nanoid } = require('nanoid')
+const { validationResult } = require('express-validator')
 
 const leerUrls = async (req, res) => {
   try {
     const urls = await Url.find().lean()
-    res.render('home', { urls })
+    res.render('home', { urls, mensajes: req.flash('mensajes') })
   } catch (error) {
-    console.log(error)
-    res.send('Error al leer las url. ' + error)
+    req.flash('mensajes', [{ msg: 'Error al leer las urls. ' + error.message }])
+    return res.redirect('/')
   }
 }
 
 const agregarUrl = async (req, res) => {
+  const errores = validationResult(req)
+  if (!errores.isEmpty()) {
+    console.log('hay un error aquí con express validator')
+    req.flash('mensajes', errores.array())
+    return res.redirect('/')
+  }
   try {
     const { tOriginUrl } = req.body
     const url = new Url({ originURL: tOriginUrl, shortURL: nanoid(8) })
     await url.save()
-    res.redirect('/')
+    return res.redirect('/')
   } catch (error) {
     console.log(error)
-    res.send('Error al agregar la url. ' + error)
+    req.flash('mensajes', [{ msg: 'Error al agregar la url. ' + error }])
+    return res.redirect('/')
   }
 }
 
@@ -29,8 +37,8 @@ const eliminarUrl = async (req, res) => {
     await Url.findByIdAndDelete(idUrl)
     res.redirect('/')
   } catch (error) {
-    console.log(error)
-    res.send('Error al eliminar la url. ' + error)
+    req.flash('mensajes', [{ msg: 'Error al eliminar la url. ' + error }])
+    return res.redirect('/')
   }
 }
 
@@ -40,8 +48,10 @@ const editarUrlForm = async (req, res) => {
     const elemUrl = await Url.findById(idUrl).lean()
     res.render('home', { elemUrl })
   } catch (error) {
-    console.log(error)
-    res.send('Error al editar la url en el formulario. ' + error)
+    req.flash('mensajes', [
+      { msg: 'Error al cargar el formulario de editar url. ' + error },
+    ])
+    return res.redirect('/')
   }
 }
 
@@ -50,9 +60,10 @@ const editarUrl = async (req, res) => {
   const { tOriginUrl } = req.body
   try {
     await Url.findByIdAndUpdate(idUrl, { originURL: tOriginUrl })
-    res.redirect('/')
+    return res.redirect('/')
   } catch (error) {
-    res.send('Error al editar la url. ' + error)
+    req.flash('mensajes', [{ msg: 'Error al editar la url. ' + error }])
+    return res.redirect('/')
   }
 }
 
@@ -60,9 +71,10 @@ const redirectShortUrl = async (req, res) => {
   const { shortUrl } = req.params
   try {
     const url = await Url.findOne({ shortURL: shortUrl })
-    res.redirect(url.originURL)
+    return res.redirect(url.originURL)
   } catch (error) {
-    res.send('Error en el redireccionamiento. ' + error)
+    req.flash('mensajes', [{ msg: 'Error en el redireccionamiento. ' + error }])
+    return res.redirect('/')
   }
 }
 

@@ -2,6 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const flash = require('connect-flash')
 const { create } = require('express-handlebars')
+const csrf = require('csurf')
 const passport = require('passport')
 const User = require('./models/User')
 require('dotenv').config()
@@ -41,7 +42,7 @@ passport.serializeUser((user, done) =>
 //passport deserializa la sesion del usuario
 passport.deserializeUser(async (user, done) => {
   //buscar si ese usuario de la sesion si existe
-  const userDB = await User.findById(user.id)
+  const userDB = await User.findById(user.id).exec()
 
   if (!userDB) {
     return done(new Error('El usuario no se ha encontrado'), null)
@@ -52,6 +53,12 @@ passport.deserializeUser(async (user, done) => {
 
 app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({ extended: true }))
+
+app.use(csrf(), (req, res, next) => {
+  res.locals.csrfToken = req.csrfToken()
+  next()
+})
+
 app.use('/', require('./routes/home'))
 app.use('/auth', require('./routes/auth'))
 

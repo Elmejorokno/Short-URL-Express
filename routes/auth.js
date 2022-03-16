@@ -6,6 +6,7 @@ const {
   confirmarCuenta,
   loginForm,
   loginUser,
+  logoutUser,
 } = require('../Controllers/authController')
 const router = express.Router()
 
@@ -54,5 +55,6 @@ router.post(
   ],
   loginUser
 )
+router.get('/logout', logoutUser)
 
 module.exports = router

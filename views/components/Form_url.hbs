@@ -1,5 +1,6 @@
 {{#if elemUrl}}
   <form action='/editar/{{elemUrl._id}}' method='POST'>
+    <input type='hidden' name='_csrf' value='{{csrfToken}}' />
     <input
       type='text'
       name='tOriginUrl'
@@ -15,6 +16,7 @@
 
 {{else}}
   <form action='/' method='POST'>
+    <input type='hidden' name='_csrf' value='{{csrfToken}}' />
     <input
       type='text'
       name='tOriginUrl'

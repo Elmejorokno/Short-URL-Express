@@ -13,7 +13,8 @@ const checkUrl = (req, res, next) => {
       throw new Error('Error al válidar la url')
     }
   } catch (error) {
-    return res.send('url no válida. ' + error)
+    req.flash('mensajes', [{ msg: 'Url no válida.' }])
+    return res.redirect('/')
   }
 }
 

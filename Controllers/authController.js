@@ -90,11 +90,22 @@ const loginUser = async (req, res) => {
     if (!(await user.comparePassword(tPassword)))
       throw new Error('Contraseña incorrecta')
 
-    res.redirect('/')
+    //crea la sesion de usuario con passport
+    req.login(user, (err) => {
+      if (err) throw new Error('Error al crear la sesión. ' + err)
+
+      return res.redirect('/')
+    })
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
     res.redirect('/auth/login')
   }
+}
+
+const logoutUser = (req, res) => {
+  req.logout()
+
+  res.redirect('/auth/login')
 }
 
 module.exports = {
@@ -103,4 +114,5 @@ module.exports = {
   confirmarCuenta,
   loginForm,
   loginUser,
+  logoutUser,
 }
