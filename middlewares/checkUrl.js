@@ -9,11 +9,16 @@ const checkUrl = (req, res, next) => {
       if (urlFronted.protocol === 'http:' || urlFronted.protocol === 'https:') {
         return next()
       }
+      throw new Error('La url debe de tener protocolo "http" o "https".')
     } else {
-      throw new Error('Error al válidar la url')
+      throw new Error('Url no válida')
     }
   } catch (error) {
-    req.flash('mensajes', [{ msg: 'Url no válida.' }])
+    req.flash('mensajes', [
+      {
+        msg: error.message === 'Invalid URL' ? 'Url no válida' : error.message,
+      },
+    ])
     return res.redirect('/')
   }
 }

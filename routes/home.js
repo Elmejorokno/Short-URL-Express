@@ -16,6 +16,7 @@ const router = express.Router()
 router.get('/', checkUser, leerUrls)
 router.post(
   '/',
+  checkUser,
   [body('tOriginUrl', 'Ingrese una Url válida.').trim().isURL()],
   checkUrl,
   agregarUrl
@@ -24,6 +25,7 @@ router.get('/eliminar/:idUrl', checkUser, eliminarUrl)
 router.get('/editar/:idUrl', checkUser, editarUrlForm)
 router.post(
   '/editar/:idUrl',
+  checkUser,
   [body('tOriginUrl', 'Ingrese una Url válida.').trim().isURL()],
   checkUrl,
   editarUrl

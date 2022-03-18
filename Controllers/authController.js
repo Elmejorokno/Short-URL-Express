@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const { nanoid } = require('nanoid')
 const { validationResult } = require('express-validator')
+const { sendEmail } = require('../mailer')
 
 //renderizado del formulario de registro de usuario
 const registerForm = (req, res) => {
@@ -28,6 +29,13 @@ const registerUser = async (req, res) => {
     })
     await user.save()
 
+    /*método para enviar correo de validacion de cuenta al usuario*/
+    sendEmail({
+      username: user.username,
+      email: user.email,
+      tokenConfirm: user.tokenConfirm,
+    })
+
     req.flash('mensajes', [
       {
         msg: 'Cuenta creada exitosamente, revisa tu correo y verifica tu cuenta',
@@ -35,8 +43,6 @@ const registerUser = async (req, res) => {
     ])
 
     res.redirect('/auth/login')
-
-    //TODO: Enviar correo de validacion al usuario
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
     res.redirect('/auth/register')

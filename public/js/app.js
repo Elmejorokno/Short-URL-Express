@@ -1,6 +1,6 @@
 document.addEventListener('click', (e) => {
   if (e.target.dataset.shorturl) {
-    const url = `http://localhost:5000/${e.target.dataset.shorturl}`
+    const url = `http://localhost:5000/redirect/${e.target.dataset.shorturl}`
 
     navigator.clipboard
       .writeText(url)
