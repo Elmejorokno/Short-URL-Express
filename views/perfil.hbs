@@ -1,0 +1,28 @@
+<h1 class='text-center'>Hola, {{username}}</h1>
+<p class='text-center'>Edita aquí tu perfil</p>
+
+{{#each mensajes}}
+  <div class='alert alert-dark mb-3'>{{this.msg}}</div>
+{{/each}}
+
+<div class='my-3 text-center'>
+  <img
+    src='/img/perfil/{{imagePath}}'
+    alt='Foto de perfil'
+    class='rounded-circle'
+  />
+</div>
+
+<form
+  action='/profile?_csrf={{csrfToken}}'
+  enctype='multipart/form-data'
+  method='POST'
+>
+  <input
+    class='form-control my-2'
+    type='file'
+    name='filePicture'
+    id='formFile'
+  />
+  <button type='submit' class='btn btn-dark my-2'>Cambiar imagen de perfil</button>
+</form>

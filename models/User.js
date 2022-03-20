@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  imagePath: {
+    type: String,
+    default: 'default.png',
+  },
   tokenConfirm: {
     type: String,
     default: null,

@@ -64,10 +64,10 @@ const confirmarCuenta = async (req, res) => {
     await user.save()
 
     req.flash('mensajes', [{ msg: 'Activación de la cuenta éxitosa.' }])
-    res.redirect('/auth/login')
+    return res.redirect('/auth/login')
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
-    res.redirect('/auth/login')
+    return res.redirect('/auth/login')
   }
 }
 

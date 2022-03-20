@@ -8,6 +8,10 @@ const {
   editarUrl,
   redirectShortUrl,
 } = require('../Controllers/homeController')
+const {
+  perfilForm,
+  editarFotoPerfil,
+} = require('../Controllers/perfilController')
 const checkUrl = require('../middlewares/checkUrl')
 const checkUser = require('../middlewares/checkUser')
 
@@ -31,5 +35,8 @@ router.post(
   editarUrl
 )
 router.get('/redirect/:shortUrl', redirectShortUrl)
+
+router.get('/profile', checkUser, perfilForm)
+router.post('/profile', checkUser, editarFotoPerfil)
 
 module.exports = router
