@@ -1,6 +1,9 @@
 module.exports = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    return res.redirect('/auth/login')
+    req.flash('mensajes', [
+      { msg: 'Debes de iniciar sesión para acceder a esa página.' },
+    ])
+    return res.redirect('/login')
   }
   return next()
 }

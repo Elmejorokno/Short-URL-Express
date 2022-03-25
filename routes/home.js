@@ -11,6 +11,7 @@ const {
 const {
   perfilForm,
   editarFotoPerfil,
+  editarUsername,
 } = require('../Controllers/perfilController')
 const checkUrl = require('../middlewares/checkUrl')
 const checkUser = require('../middlewares/checkUser')
@@ -37,6 +38,17 @@ router.post(
 router.get('/redirect/:shortUrl', redirectShortUrl)
 
 router.get('/profile', checkUser, perfilForm)
-router.post('/profile', checkUser, editarFotoPerfil)
+router.post('/profile/image', checkUser, editarFotoPerfil)
+router.post(
+  '/profile/username',
+  checkUser,
+  [
+    body('tUsername', 'Ingrese un nombre de usuario válido')
+      .trim()
+      .notEmpty()
+      .escape(),
+  ],
+  editarUsername
+)
 
 module.exports = router

@@ -29,7 +29,6 @@ const agregarUrl = async (req, res) => {
     req.flash('mensajes', [{ msg: 'Url agregada.' }])
     return res.redirect('/')
   } catch (error) {
-    console.log(error)
     req.flash('mensajes', [
       { msg: 'Error al agregar la url. ' + error.message },
     ])

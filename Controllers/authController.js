@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
   const errores = validationResult(req)
   if (!errores.isEmpty()) {
     req.flash('mensajes', errores.array())
-    return res.redirect('/auth/register')
+    return res.redirect('/register')
   }
 
   const { tUsername, tEmail, tPassword } = req.body
@@ -42,10 +42,10 @@ const registerUser = async (req, res) => {
       },
     ])
 
-    res.redirect('/auth/login')
+    res.redirect('/login')
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
-    res.redirect('/auth/register')
+    res.redirect('/register')
   }
 }
 
@@ -64,10 +64,10 @@ const confirmarCuenta = async (req, res) => {
     await user.save()
 
     req.flash('mensajes', [{ msg: 'Activación de la cuenta éxitosa.' }])
-    return res.redirect('/auth/login')
+    return res.redirect('/login')
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
-    return res.redirect('/auth/login')
+    return res.redirect('/login')
   }
 }
 
@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
   const errores = validationResult(req)
   if (!errores.isEmpty()) {
     req.flash('mensajes', errores.array())
-    return res.redirect('/auth/login')
+    return res.redirect('/login')
   }
 
   const { tEmail, tPassword } = req.body
@@ -104,14 +104,14 @@ const loginUser = async (req, res) => {
     })
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
-    res.redirect('/auth/login')
+    res.redirect('/login')
   }
 }
 
 const logoutUser = (req, res) => {
   req.logout()
 
-  res.redirect('/auth/login')
+  res.redirect('/login')
 }
 
 module.exports = {

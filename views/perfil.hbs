@@ -14,15 +14,33 @@
 </div>
 
 <form
-  action='/profile?_csrf={{csrfToken}}'
+  action='/profile/image?_csrf={{csrfToken}}'
   enctype='multipart/form-data'
   method='POST'
 >
+  <p class='lead mb-0'>Edita tu foto de perfil:</p>
   <input
-    class='form-control my-2'
+    class='form-control mb-3'
     type='file'
     name='filePicture'
     id='formFile'
   />
-  <button type='submit' class='btn btn-dark my-2'>Cambiar imagen de perfil</button>
+
+  <button type='submit' class='btn btn-dark mb-1'>Actualizar Foto de Perfil</button>
+</form>
+
+<form action='/profile/username' method='POST'>
+  <input type='hidden' name='_csrf' value='{{csrfToken}}' />
+  <p class='lead mb-0'>Edita tu nombre de usuario:</p>
+  <input
+    class='form-control mb-3'
+    type='text'
+    name='tUsername'
+    placeholder='Introduce un nuevo username'
+    aria-label='input'
+    value='{{username}}'
+    autocomplete='off'
+  />
+
+  <button type='submit' class='btn btn-dark'>Actualizar Username</button>
 </form>

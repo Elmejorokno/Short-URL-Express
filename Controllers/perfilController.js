@@ -3,6 +3,7 @@ const jimp = require('jimp')
 const path = require('path')
 const fs = require('fs')
 const User = require('../models/User')
+const { validationResult } = require('express-validator')
 
 const perfilForm = async (req, res) => {
   try {
@@ -50,8 +51,10 @@ const editarFotoPerfil = async (req, res) => {
       image.resize(200, 200).quality(90).writeAsync(dirImage)
 
       const user = await User.findById(req.user.id)
+      if (!user) throw new Error('El usuario no existe.')
       user.imagePath = `${req.user.id}.${imageType}`
       await user.save()
+
       req.flash('mensajes', [{ msg: 'Imagen actualizada correctamente.' }])
     } catch (error) {
       req.flash('mensajes', [{ msg: error.message }])
@@ -61,7 +64,33 @@ const editarFotoPerfil = async (req, res) => {
   })
 }
 
+const editarUsername = async (req, res) => {
+  const errores = validationResult(req)
+  if (!errores.isEmpty()) {
+    req.flash('mensajes', errores.array())
+    return res.redirect('/profile')
+  }
+
+  const { tUsername } = req.body
+
+  try {
+    if (req.user.username !== tUsername) {
+      const user = await User.findById(req.user.id)
+      if (!user) throw new Error('El usuario no existe.')
+      user.username = tUsername
+      await user.save()
+
+      req.flash('mensajes', [{ msg: 'Username actualizado correctamente.' }])
+    }
+  } catch (error) {
+    req.flash('mensajes', [{ msg: error.message }])
+  } finally {
+    return res.redirect('/profile')
+  }
+}
+
 module.exports = {
   perfilForm,
   editarFotoPerfil,
+  editarUsername,
 }
