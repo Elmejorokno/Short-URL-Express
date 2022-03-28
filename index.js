@@ -22,6 +22,8 @@ app.use(
   })
 )
 
+app.use('trust proxy', 1)
+
 const hbs = create({
   extname: '.hbs',
   partialsDir: ['views/components'],
