@@ -32,7 +32,7 @@ app.use(
     name: 'session-user',
     cookie: {
       secure: process.env.PathHeroku ? true : false,
-      maxAge: 5 * 24 * 60 * 1000, //5 dias
+      maxAge: 5 * 24 * 60 * 60 * 1000, //5 dias
     },
     store: MongoStore.create({
       clientPromise: clientDB,
