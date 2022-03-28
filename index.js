@@ -14,13 +14,13 @@ require('dotenv').config()
 
 const app = express()
 
-app.use(
-  cors({
-    credentials: true,
-    methods: ['GET', 'POST'],
-    origin: process.env.PathHeroku || '*',
-  })
-)
+const corsOption = {
+  credentials: true,
+  methods: ['GET', 'POST'],
+  origin: process.env.PathHeroku || '*',
+}
+
+app.use(cors())
 
 app.set('trust proxy', 1)
 
