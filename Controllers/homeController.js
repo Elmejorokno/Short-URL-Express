@@ -5,7 +5,10 @@ const { validationResult } = require('express-validator')
 const leerUrls = async (req, res) => {
   try {
     const urls = await Url.find({ user: req.user.id }).lean()
-    res.render('home', { urls, mensajes: req.flash('mensajes') })
+    res.render('home', {
+      urls,
+      mensajes: req.flash('mensajes'),
+    })
   } catch (error) {
     req.flash('mensajes', [{ msg: 'Error al leer las urls. ' + error.message }])
     return res.redirect('/')
@@ -18,8 +21,9 @@ const agregarUrl = async (req, res) => {
     req.flash('mensajes', errores.array())
     return res.redirect('/')
   }
+
+  const { tOriginUrl } = req.body
   try {
-    const { tOriginUrl } = req.body
     const url = new Url({
       originURL: tOriginUrl,
       shortURL: nanoid(8),

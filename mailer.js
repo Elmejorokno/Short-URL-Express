@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer')
 const hbs = require('nodemailer-express-handlebars')
-const { extname } = require('path')
 const path = require('path')
 require('dotenv').config()
 
@@ -35,6 +34,7 @@ const sendEmail = async ({ username, email, tokenConfirm }) => {
     context: {
       tokenConfirm,
       username,
+      originPath: process.env.PathHeroku || 'http://localhost:5000',
     },
     //html: `<a href="http://localhost:5000/register/${tokenConfirm}">Verifica tu cuenta aquí.</a>`, // html body
   })

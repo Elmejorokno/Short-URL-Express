@@ -1,14 +1,26 @@
 const express = require('express')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')
+const mongoSanitize = require('express-mongo-sanitize')
 const flash = require('connect-flash')
+const cors = require('cors')
 const { create } = require('express-handlebars')
 const csrf = require('csurf')
 const passport = require('passport')
+
+const clientDB = require('./database/db')
 const User = require('./models/User')
 require('dotenv').config()
-require('./database/db')
 
 const app = express()
+
+app.use(
+  cors({
+    credentials: true,
+    methods: ['GET', 'POST'],
+    origin: process.env.PathHeroku || '*',
+  })
+)
 
 const hbs = create({
   extname: '.hbs',
@@ -22,11 +34,19 @@ app.set('views', './views')
 
 app.use(
   session({
-    secret: 'asdaw',
+    secret: process.env.SecretSession,
     resave: false,
     saveUninitialized: false,
-    name: 'asdaw-try',
-    cookie: { sameSite: true },
+    name: 'session-user',
+    cookie: {
+      sameSite: true,
+      secure: process.env.PathHeroku ? true : false,
+      maxAge: 5 * 24 * 60 * 1000, //5 dias
+    },
+    store: MongoStore.create({
+      clientPromise: clientDB,
+      dbName: process.env.DatabaseName,
+    }),
   })
 )
 app.use(flash())
@@ -79,6 +99,8 @@ app.use(csrf(), (req, res, next) => {
   res.locals.user = req.user
   next()
 })
+
+app.use(mongoSanitize())
 
 app.use('/', require('./routes/home'))
 app.use('/', require('./routes/auth'))
