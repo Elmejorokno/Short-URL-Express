@@ -22,16 +22,6 @@ app.use(
   })
 )
 
-const hbs = create({
-  extname: '.hbs',
-  partialsDir: ['views/components'],
-})
-
-//Config del hbs, express templates "handlebars"
-app.engine('.hbs', hbs.engine)
-app.set('view engine', '.hbs')
-app.set('views', './views')
-
 app.set('trust proxy', 1)
 
 app.use(
@@ -41,7 +31,6 @@ app.use(
     saveUninitialized: false,
     name: 'session-user',
     cookie: {
-      sameSite: true,
       secure: process.env.PathHeroku ? true : false,
       maxAge: 5 * 24 * 60 * 1000, //5 dias
     },
@@ -91,6 +80,16 @@ app.use((err, req, res, next) => {
   }
   next()
 })
+
+const hbs = create({
+  extname: '.hbs',
+  partialsDir: ['views/components'],
+})
+
+//Config del hbs, express templates "handlebars"
+app.engine('.hbs', hbs.engine)
+app.set('view engine', '.hbs')
+app.set('views', './views')
 
 app.use(express.static(__dirname + '/public'))
 app.use(express.urlencoded({ extended: true }))
