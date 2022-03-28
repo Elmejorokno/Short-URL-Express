@@ -22,8 +22,6 @@ app.use(
   })
 )
 
-app.set('trust proxy', 1)
-
 const hbs = create({
   extname: '.hbs',
   partialsDir: ['views/components'],
@@ -33,6 +31,8 @@ const hbs = create({
 app.engine('.hbs', hbs.engine)
 app.set('view engine', '.hbs')
 app.set('views', './views')
+
+app.set('trust proxy', 1)
 
 app.use(
   session({
