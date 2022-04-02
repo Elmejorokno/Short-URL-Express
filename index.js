@@ -74,7 +74,7 @@ passport.deserializeUser(async (user, done) => {
 app.use((err, req, res, next) => {
   //manejo de error del deserialize user
   if (err) {
-    // req.logout() PRUEBA COMENTADA
+    req.logout()
     req.flash('mensajes', [{ msg: err.message }])
     return res.redirect('/login')
   }
