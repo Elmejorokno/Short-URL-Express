@@ -17,7 +17,7 @@ const app = express()
 const corsOption = {
   credentials: true,
   methods: ['GET', 'POST'],
-  origin: process.env.PathHeroku || '*',
+  origin: process.env.PathHeroku || '*'
 }
 
 app.use(cors())
@@ -32,12 +32,12 @@ app.use(
     name: 'session-user',
     cookie: {
       secure: process.env.PathHeroku ? true : false,
-      maxAge: 5 * 24 * 60 * 60 * 1000, //5 dias
+      maxAge: 5 * 24 * 60 * 60 * 1000 //5 dias
     },
     store: MongoStore.create({
       clientPromise: clientDB,
-      dbName: process.env.DatabaseName,
-    }),
+      dbName: process.env.DatabaseName
+    })
   })
 )
 app.use(flash())
@@ -51,7 +51,7 @@ passport.serializeUser((user, done) => {
   done(null, {
     id: user._id,
     username: user.username,
-    imagePath: user.imagePath,
+    imagePath: user.imagePath
   })
 })
 
@@ -67,14 +67,14 @@ passport.deserializeUser(async (user, done) => {
   return done(null, {
     id: userDB._id,
     username: userDB.username,
-    imagePath: userDB.imagePath,
+    imagePath: userDB.imagePath
   })
 })
 
 app.use((err, req, res, next) => {
   //manejo de error del deserialize user
   if (err) {
-    req.logout()
+    // req.logout() PRUEBA COMENTADA
     req.flash('mensajes', [{ msg: err.message }])
     return res.redirect('/login')
   }
@@ -83,7 +83,7 @@ app.use((err, req, res, next) => {
 
 const hbs = create({
   extname: '.hbs',
-  partialsDir: ['views/components'],
+  partialsDir: ['views/components']
 })
 
 //Config del hbs, express templates "handlebars"
