@@ -20,7 +20,7 @@ const corsOption = {
   origin: process.env.PathHeroku || '*'
 }
 
-app.use(cors())
+app.use(cors(corsOption))
 
 app.set('trust proxy', 1)
 
