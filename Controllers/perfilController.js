@@ -11,7 +11,7 @@ const perfilForm = async (req, res) => {
     return res.render('perfil', {
       username: user.username,
       imagePath: user.imagePath,
-      mensajes: req.flash('mensajes'),
+      mensajes: req.flash('mensajes')
     })
   } catch (error) {
     req.flash('mensajes', [{ msg: error.message }])
@@ -43,6 +43,8 @@ const editarFotoPerfil = async (req, res) => {
         __dirname,
         `../public/img/perfil/${req.user.id}.${imageType}`
       )
+
+      console.log(__dirname)
 
       fs.renameSync(file.filepath, dirImage)
 
@@ -92,5 +94,5 @@ const editarUsername = async (req, res) => {
 module.exports = {
   perfilForm,
   editarFotoPerfil,
-  editarUsername,
+  editarUsername
 }
