@@ -6,6 +6,14 @@
 
 {{>Form_url}}
 
+{{#if production}}
 {{#each urls}}
-  {{> Card_url url=this}}
+  {{> Card_url_production url=this}}
 {{/each}}
+
+{{else}}
+{{#each urls}}
+  {{> Card_url_development url=this}}
+{{/each}}
+
+{{/if}}

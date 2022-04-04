@@ -8,6 +8,7 @@ const leerUrls = async (req, res) => {
     res.render('home', {
       urls,
       mensajes: req.flash('mensajes'),
+      production: process.env.PathHeroku
     })
   } catch (error) {
     req.flash('mensajes', [{ msg: 'Error al leer las urls. ' + error.message }])
@@ -27,14 +28,14 @@ const agregarUrl = async (req, res) => {
     const url = new Url({
       originURL: tOriginUrl,
       shortURL: nanoid(8),
-      user: req.user.id,
+      user: req.user.id
     })
     await url.save()
     req.flash('mensajes', [{ msg: 'Url agregada.' }])
     return res.redirect('/')
   } catch (error) {
     req.flash('mensajes', [
-      { msg: 'Error al agregar la url. ' + error.message },
+      { msg: 'Error al agregar la url. ' + error.message }
     ])
     return res.redirect('/')
   }
@@ -54,7 +55,7 @@ const eliminarUrl = async (req, res) => {
     return res.redirect('/')
   } catch (error) {
     req.flash('mensajes', [
-      { msg: 'Error al eliminar la url. ' + error.message },
+      { msg: 'Error al eliminar la url. ' + error.message }
     ])
     return res.redirect('/')
   }
@@ -72,7 +73,7 @@ const editarUrlForm = async (req, res) => {
     res.render('home', { elemUrl })
   } catch (error) {
     req.flash('mensajes', [
-      { msg: 'Error al cargar el formulario de editar url. ' + error.message },
+      { msg: 'Error al cargar el formulario de editar url. ' + error.message }
     ])
     return res.redirect('/')
   }
@@ -107,5 +108,5 @@ module.exports = {
   eliminarUrl,
   editarUrlForm,
   editarUrl,
-  redirectShortUrl,
+  redirectShortUrl
 }
