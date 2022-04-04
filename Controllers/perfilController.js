@@ -23,8 +23,6 @@ const editarFotoPerfil = async (req, res) => {
   const form = new formidable.IncomingForm()
   form.maxFileSize = 50 * 1024 * 1024 //5 mb
 
-  console.log(__dirname)
-
   form.parse(req, async (err, fields, files) => {
     try {
       if (err) throw new Error('Falló en la subida de imagen. ' + err)

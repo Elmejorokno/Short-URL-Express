@@ -108,4 +108,4 @@ app.use('/', require('./routes/auth'))
 //app.use('/auth', require('./routes/auth')) lo mismo que arriba, solo que tiene un 'apellido' auth
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log('servidor andando'))
+app.listen(PORT, () => console.log('servidor andando. ' + __dirname))
